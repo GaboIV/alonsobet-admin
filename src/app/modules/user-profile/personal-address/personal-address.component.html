@@ -1,0 +1,80 @@
+<ng-container *ngIf="user">
+    <div class="card card-custom card-stretch" [formGroup]="formGroup">
+      <!-- begin::Loading -->
+      <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+            role="progressbar"
+            style="width: 100%"
+            aria-valuenow="100"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+      </ng-container>
+      <!-- end::Loading -->
+      <!--begin::Header-->
+      <div class="card-header py-3">
+        <div class="card-title align-items-start flex-column">
+          <h3 class="card-label font-weight-bolder text-dark">Ubicación</h3>
+          <span class="text-muted font-weight-bold font-size-sm mt-1">Actualizar su dirección</span>
+        </div>
+        <div class="card-toolbar">
+          <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success mr-2" (click)="save()">Guardar cambios</button>
+          <button type="reset" class="btn btn-secondary" [routerLink]="['/dashboard']">Cancelar</button>
+        </div>
+      </div>
+      <!--end::Header-->
+      <!--begin::Form-->
+      <div class="form">
+        <!--begin::Body-->
+        <div class="card-body">
+
+          <div class="row">
+            <label class="col-xl-3"></label>
+            <div class="col-lg-9 col-xl-6">
+              <h5 class="font-weight-bold mt-10 mb-6">Datos de dirección</h5>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Estado</label>
+            <div class="col-lg-9 col-xl-6">
+              <select class="form-control form-control-lg form-control-solid" formControlName="state_id" (change)="changeState()">
+                <option *ngFor="let item of states" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Ciudad</label>
+            <div class="col-lg-9 col-xl-6">
+              <select class="form-control form-control-lg form-control-solid" formControlName="city_id" (change)="changeCity()">
+                <option *ngFor="let item of cities" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Parroquia</label>
+            <div class="col-lg-9 col-xl-6">
+              <select class="form-control form-control-lg form-control-solid" formControlName="parish_id">
+                <option *ngFor="let item of parishes" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Dirección</label>
+            <div class="col-lg-9 col-xl-6">
+              <input class="form-control form-control-lg form-control-solid"
+                type="text"
+                formControlName="address"
+                [class.is-invalid]="isControlInvalid('address')"
+                [class.is-valid]="isControlValid('address')"
+              />
+            </div>
+          </div>
+        </div>
+        <!--end::Body-->
+      </div>
+      <!--end::Form-->
+    </div>
+  </ng-container>

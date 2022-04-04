@@ -1,0 +1,51 @@
+.icon-close {
+    color: #F44336; 
+    cursor: pointer;
+}
+
+.icon-close:hover {
+    color: #D50000;
+}
+
+.icon-edit {
+    color: #2979FF; 
+    cursor: pointer;
+}
+
+.icon-edit:hover {
+    color: #01579B;
+}
+
+.icon-new {
+    color: #40C4FF; 
+    cursor: pointer;
+    margin: 0.1em;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+.icon-new:hover {
+    color: #0091EA;
+}
+
+.icon-success {
+    color: #29ff29; 
+    cursor: pointer;
+}
+
+.icon-load {
+    color: #FEEA3A; 
+    cursor: pointer;
+}
+
+.icon-load:hover {
+    color: #FEC006;
+}
+
+.filter_select {
+    max-width: 120px;
+}
+
+.card.card-custom > .card-body {
+    padding: 1rem 1.25rem;
+}

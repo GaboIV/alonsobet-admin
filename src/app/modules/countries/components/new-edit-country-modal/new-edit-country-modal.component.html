@@ -1,0 +1,46 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <span *ngIf="!country.id">Agregar país</span>
+      <span *ngIf="country.id">Editar país</span>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+    <ng-container>
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-12">
+            <label class="form-label">Nombre de la país</label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="name"
+              placeholder="Nombre de la país" autocomplete="off" [class.is-invalid]="isControlInvalid('name')"
+              [class.is-valid]="isControlValid('name')" formControlName="name" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-12">
+            <label class="form-label">Acrónimo de la país</label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="acro_3"
+              placeholder="Acrónimo de la país" autocomplete="off" [class.is-invalid]="isControlInvalid('acro_3')" [class.is-valid]="isControlValid('acro_3')" formControlName="acro_3" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-12">
+            <label class="form-label">Importancia de la país</label>
+            <input type="number" class="form-control form-control-lg form-control-solid" name="importance"
+              placeholder="Importancia de la país" autocomplete="off" [class.is-invalid]="isControlInvalid('importance')" [class.is-valid]="isControlValid('importance')" formControlName="importance" />
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <ng-container>
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formGroup.invalid">
+        Guardar
+      </button>
+    </ng-container>
+  </div>
+</div>

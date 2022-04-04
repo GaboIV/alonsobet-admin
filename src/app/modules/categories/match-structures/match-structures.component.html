@@ -1,0 +1,118 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Lista de tipos de apuestas</h3>
+    </div>
+    <div class="card-toolbar">
+      <a type="button" class="btn btn-primary" (click)="newEditMatchStructure(EMPTY_MATCH_STRUCTURE)">Nueva estructura</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <th>ID</th>
+          <th>CATEGORÍA</th>
+          <th>DIVISIÓN DE EVENTOS</th>
+          <th>NOMBRE DIVISIÓN SINGULAR</th>
+          <th>NOMBRE DIVISIÓN PLURAL</th>
+          <th>NOMBRE ANOTACIÓN SINGULAR</th>
+          <th>NOMBRE ANOTACIÓN PLURAL</th>
+          <!-- <th>PRINCIPAL</th>
+          <th>MITAD DE EVENTO</th> -->
+          <th>TIPO</th>
+          <th>APUESTAS PRINCIPALES</th>
+          <th>ACCIONES</th>
+        </thead>
+        <thead class="primary">
+          <tr>
+            <th>
+              <i (click)="get(page)" class="fas fa-sync-alt icon-load" [class.fa-spin]="isLoadingGet"></i>
+            </th>
+            <th scope="col">
+              <select class="form-control" [(ngModel)]="filters.category_id" id="filter_category_id"
+                name="filter_category_id" (change)="get(1)">
+                <option value="">Todos</option>
+                <option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let model of data">
+            <td>{{model.id}}</td>
+
+            <td>{{model.category?.name}}</td>
+
+            <td #division_number [innerText]="model.division_number"
+              (blur)="updateValue(model.id, division_number.innerText, model, 'division_number', 'número de divisiones ')"
+              contenteditable="true">{{model.division_number}}</td>
+
+            <td #division_name_singular [innerText]="model.division_name_singular"
+              (blur)="updateValue(model.id, division_name_singular.innerText, model, 'division_name_singular', 'nombre de división(singular) ')"
+              contenteditable="true">{{model.division_name_singular}}</td>
+
+            <td #division_name_plural [innerText]="model.division_name_plural"
+              (blur)="updateValue(model.id, division_name_plural.innerText, model, 'division_name_plural', 'nombre de divisiones (plural) ')"
+              contenteditable="true">{{model.division_name_plural}}</td>
+
+            <td #annotation_name_singular [innerText]="model.annotation_name_singular"
+              (blur)="updateValue(model.id, annotation_name_singular.innerText, model, 'annotation_name_singular', 'nombre de anotación (singular) ')"
+              contenteditable="true">{{model.annotation_name_singular}}</td>
+
+            <td #annotation_name_plural [innerText]="model.annotation_name_plural"
+              (blur)="updateValue(model.id, annotation_name_plural.innerText, model, 'annotation_name_plural', 'nombre de anotaciones (plural) ')"
+              contenteditable="true">{{model.annotation_name_plural}}</td>
+
+            <!-- <td>
+              <div class="d-flex align-items-center">
+                <label class="checkbox checkbox-lg checkbox-light-primary checkbox-single flex-shrink-0 m-0 mx-4">
+                  <input type="checkbox" [checked]="model.principal" />
+                  <span></span>
+                </label>
+                <app-widget4-dropdown></app-widget4-dropdown>
+              </div>
+            </td> -->
+
+            <!-- <td>{{model.halftime}}</td> -->
+
+            <td>{{model.type}}</td>
+
+            <td>
+              <span class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px;" *ngFor="let betType of model.main_bet_types; let i = index;">
+                <span *ngIf="betType.description && betType.description != ''">{{betType.description}}</span>
+                <span *ngIf="!betType.description && betType.description == ''">{{betType.name}}</span>
+                &nbsp;
+                <i class="fas fa-window-close icon-close" (click)="deleteMainBetType(model, betType)"></i>&nbsp;
+                <i class="fas fa-caret-square-up icon-edit" (click)="moveArrayItemToNewIndex(model.id, model.main_bet_types, i, i - 1)" *ngIf="i > 0"></i>
+              </span>
+              <i class="fas fa-plus-square icon-new" (click)="addMainBetType(model)" *ngIf="model.main_bet_types.length < 3"></i>
+            </td>
+            <td>
+              <span (click)="newEditMatchStructure(model)" class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px; cursor: pointer;">
+                Editar&nbsp;&nbsp;<i class="fas fa-edit icon-edit"></i>
+             </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer py-4">
+      <nav aria-label="...">
+        <ul class="pagination justify-content-end mb-0">
+          <ngb-pagination [collectionSize]="totalPage" [(page)]="page" [maxSize]="12" [rotate]="true"
+            [boundaryLinks]="true" (pageChange)="get(page)"></ngb-pagination>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

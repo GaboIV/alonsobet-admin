@@ -1,0 +1,20 @@
+<div class="card-body">
+  <div *ngIf="loading == true" class="loading_div">
+    HOLA
+    <i class="fas fa-spinner fa-spin"></i>
+  </div>
+  
+  {{loading}}
+
+  <div style="text-align: center;" *ngIf="loading == true">
+    CHAO
+    <a class=" btn btn-neutral btn-round btn-icon" placement="top">
+      <span class=" btn-inner--icon" style="color: green">
+        <i class="far fa-file-excel"></i>
+      </span>
+      <span class=" btn-inner--text">
+        Exportar XLSX
+      </span>
+    </a>
+  </div>
+</div>

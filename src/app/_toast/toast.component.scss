@@ -1,0 +1,16 @@
+:host {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 0.5em;
+  z-index: 1200;
+}
+
+.toast, i {
+  font-size: 1.1rem;
+}
+
+i {
+  margin-right: 5px;
+  color: white;
+}

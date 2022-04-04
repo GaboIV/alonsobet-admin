@@ -1,0 +1,52 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <span *ngIf="!league.id">Agregar liga</span>
+            <span *ngIf="league.id">Editar liga</span>
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label class="form-label">Nombre de la liga</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="name"
+                            placeholder="Nombre de la liga" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('name')" [class.is-valid]="isControlValid('name')" formControlName="name" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Seleccione categoría de la liga</label>
+                        <select class="form-control form-control-lg form-control-solid" name="category_id"
+                            [class.is-invalid]="isControlInvalid('category_id')" formControlName="category_id">
+                            <option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</option>
+                        </select>
+                        <!-- <div class="feedback">Por favor, seleccione una <b>categoría</b> para la liga</div> -->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Seleccione país de la liga</label>
+                        <select class="form-control form-control-lg form-control-solid" name="country_id"
+                            formControlName="country_id">
+                            <option *ngFor="let item of countries" value="{{item.id}}">{{item.name}}</option>
+                        </select>
+                        <!-- <div class="feedback">Por favor, seleccione un <b>país</b> para liga</div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            Cancelar
+        </button>
+        <ng-container *ngIf="league">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formGroup.invalid">
+                Guardar
+            </button>
+        </ng-container>
+    </div>
+</div>

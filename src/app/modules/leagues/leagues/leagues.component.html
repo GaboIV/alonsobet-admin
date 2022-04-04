@@ -1,0 +1,155 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Lista de ligas</h3>
+    </div>
+    <div class="card-toolbar">
+      <a type="button" class="btn btn-primary" (click)="newEditLeague(EMPTY_LEAGUE)">Nueva liga</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- begin:Table -->
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <!-- <th class="selection-cell-header" data-row-selection="true">
+            <label class="checkbox checkbox-single">
+              <input type="checkbox" [checked]="true" />
+              <span>
+
+              </span>
+            </label>
+          </th> -->
+          <th>
+            ID
+            <!-- <app-sort-icon column="id" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          </th>
+          <th>
+            NOMBRE
+            <!-- <app-sort-icon column="name" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          </th>
+          <th>
+            DEPORTE
+            <!-- <app-sort-icon column="category" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          </th>
+          <th>
+            CÓD. SINC.
+            <!-- <app-sort-icon column="web_id" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          </th>
+          <!-- <th> -->
+            <!-- ÚLT. SINC. -->
+            <!-- <app-sort-icon column="last_sync" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          <!-- </th> -->
+          <th>
+            IMPORT.
+            <!-- <app-sort-icon column="importance" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          </th>
+          <!-- <th>
+            IMAGEN
+          </th> -->
+          <th>
+            PAÍS
+            <!-- <app-sort-icon column="country" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon> -->
+          </th>
+          <th>ACCIONES</th>
+        </thead>
+        <thead class="primary">
+          <tr>
+              <th>
+                <i (click)="get(page)" class="fas fa-sync-alt icon-load" [class.fa-spin]="isLoadingGet"></i>
+              </th>
+              <!-- <th scope="col"> -->
+                <!-- <input type="text" [(ngModel)]="filters.id" class="form-control" id="filter_id" name="filter_id" placeholder="Id" (keydown.enter)="get(1)" style="max-width: 3rem;"> -->
+              <!-- </th> -->
+              <th scope="col">
+                <input type="text" [(ngModel)]="filters.name" class="form-control" id="filter_name" name="filter_name" placeholder="Nombre" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col">
+                <select class="form-control" [(ngModel)]="filters.category_id" id="filter_categpry_id" name="filter_categpry_id" (change)="get(1)">
+                  <option value="">Todos</option>
+                  <option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</option>
+                </select>
+              </th>
+              <th scope="col">
+                <input type="text" class="form-control" id="filter_name_uk" name="filter_name_uk" placeholder="Código(s)" [(ngModel)]="filters.name_uk" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col"></th>
+              <!-- <th scope="col"></th> -->
+              <!-- <th scope="col"></th> -->
+              <th scope="col">
+                <select class="form-control" [(ngModel)]="filters.country_id" id="filter_country_id" name="filter_categpry_id" (change)="get(1)">
+                  <option value="">Todos</option>
+                  <option *ngFor="let item of countries" value="{{item.id}}">{{item.name}}</option>
+                </select>
+              </th>
+              <!-- <th scope="col">Avance último 3 créditos</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let league of leaguesService.items$ | async"> -->
+          <tr *ngFor="let league of leagues">
+            <!-- <td class="selection-cell">
+              <label class="checkbox checkbox-single">
+                <input type="checkbox" [checked]="true" />
+                <span></span>
+              </label>
+            </td> -->
+            <td>{{league.id}}</td>
+            <td #name [innerText]="league.name" (blur)="updateValue(league.id, name.innerText, league, 'name', 'nombre ')" contenteditable="true">{{league.name}}</td>
+            <td>
+              <select class="form-control form-control-solid" (change)="updateValue(league.id, $event.target.value, league, 'category_id', 'categoría ')">
+                <option *ngFor="let item of categories" value="{{item.id}}" [selected]="item.id == league.category_id">{{item.name}}</option>
+              </select>
+            </td>
+            <td>
+              <span class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px;" *ngFor="let cod of league.name_uk">
+                {{cod}}&nbsp;
+                <i class="fas fa-window-close icon-close" (click)="deleteTipicoCode(league, cod)"></i>&nbsp;
+                <!-- <i class="fas fa-pen-square icon-edit"></i> -->
+              </span>
+              <i class="fas fa-plus-square icon-new" (click)="addTipicoCode(league)"></i>
+            </td>
+            <!-- <td>
+              <ng-container>2021-06-01 13:05</ng-container>
+            </td> -->
+            <td style="text-align: center;" #importance [innerText]="league.importance" (blur)="updateValue(league.id, importance.innerText, league, 'importance', 'importancia ')" contenteditable="true">{{league.importance}}</td>
+            <!-- <td>
+              <img src="https://assets.laliga.com/assets/logos/laliga-v/laliga-v-1200x1200.jpg" alt="" height="20px">
+            </td> -->
+            <td>
+              <select class="form-control form-control-solid" (change)="updateValue(league.id, $event.target.value, league, 'country_id', 'país ')">
+                <option *ngFor="let item of countries" value="{{item.id}}" [selected]="item.id == league.country_id">{{item.name}}</option>
+              </select>
+            </td>
+            <td>
+              <!-- <button type="button" class="btn btn-info btn-sm" style="width: 100%;"><i class="fas fa-sync"></i></button> -->
+              <span (click)="sync(league)" class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px; cursor: pointer;">
+                 Sincronizar&nbsp;&nbsp;<i class="fas fa-sync icon-success"></i>
+              </span>
+
+              <span (click)="newEditLeague(league)" class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px; cursor: pointer;">
+                Editar&nbsp;&nbsp;<i class="fas fa-edit icon-edit"></i>
+             </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer py-4">
+      <nav aria-label="...">
+        <ul class="pagination justify-content-end mb-0">
+          <ngb-pagination [collectionSize]="totalPage" [(page)]="page" [maxSize]="12" [rotate]="true" [boundaryLinks]="true" (pageChange)="get(page)"></ngb-pagination>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- <app-toasts aria-live="polite" aria-atomic="true"></app-toasts> -->

@@ -1,0 +1,55 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Lista de {{namePlural.toLowerCase()}}</h3>
+    </div>
+    <div class="card-toolbar">
+      <a type="button" class="btn btn-primary" (click)="newEdit(EMPTY_MODEL)">Crear {{nameSingular.toLowerCase()}}</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <th>ID</th>
+          <th>NOMBRE</th>
+          <th>INICIALES</th>
+          <th>ACCIONES</th>
+        </thead>
+        <thead class="primary">
+          <tr>
+              <th>
+                <i (click)="get(page)" class="fas fa-sync-alt icon-load" [class.fa-spin]="isLoadingGet"></i>
+              </th>
+              <th scope="col">
+                <input type="text" [(ngModel)]="filters.name" class="form-control" id="filter_name" name="filter_name" placeholder="Nombre" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col">
+                <input type="text" [(ngModel)]="filters.initial" class="form-control" id="filter_initial" name="filter_initial" placeholder="Iniciales" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let model of banks">
+            <td>{{model.id}}</td>
+            <td #name [innerText]="model.name" (blur)="updateValue(model.id, name.innerText, model, 'name', 'nombre ')" contenteditable="true">{{model.name}}</td>
+            <td #initial [innerText]="model.initial" (blur)="updateValue(model.id, initial.innerText, model, 'initial', 'acrónimo ')" contenteditable="true">{{model.initial}}</td>
+            <td>
+              <span (click)="newEdit(model)" class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px; cursor: pointer;">
+                Editar&nbsp;&nbsp;<i class="fas fa-edit icon-edit"></i>
+             </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer py-4">
+      <nav aria-label="...">
+        <ul class="pagination justify-content-end mb-0">
+          <ngb-pagination [collectionSize]="totalPage" [(page)]="page" [maxSize]="12" [rotate]="true" [boundaryLinks]="true" (pageChange)="get(page)"></ngb-pagination>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

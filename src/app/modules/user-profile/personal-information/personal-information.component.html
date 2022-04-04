@@ -1,0 +1,198 @@
+<ng-container *ngIf="user">
+  <div class="card card-custom card-stretch" [formGroup]="formGroup">
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="progress progress-modal">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+          role="progressbar"
+          style="width: 100%"
+          aria-valuenow="100"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+    </ng-container>
+    <!-- end::Loading -->
+    <!--begin::Header-->
+    <div class="card-header py-3">
+      <div class="card-title align-items-start flex-column">
+        <h3 class="card-label font-weight-bolder text-dark">Información personal</h3>
+        <span class="text-muted font-weight-bold font-size-sm mt-1">Actualizar su infomación personal</span>
+      </div>
+      <div class="card-toolbar">
+        <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success mr-2" (click)="save()">Guardar cambios</button>
+        <button type="reset" class="btn btn-secondary" [routerLink]="['/dashboard']">Cancelar</button>
+      </div>
+    </div>
+    <!--end::Header-->
+    <!--begin::Form-->
+    <div class="form">
+      <!--begin::Body-->
+      <div class="card-body">
+        <!-- <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Imagen de perfil</label>
+          <div class="col-lg-9 col-xl-6">
+            <div class="image-input image-input-outline"
+              id="kt_profile_avatar"
+              [class.image-input-empty]="!user.pic"
+              [style.backgroundImage]="'url('+ user.admin?.photo_url +')'"
+            >
+              <div class="image-input-wrapper" [style.backgroundImage]="getPic()"></div>
+              <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                data-action="change"
+                data-toggle="tooltip"
+                title=""
+                data-original-title="Change avatar"
+              >
+                <i class="fa fa-pen icon-sm text-muted"></i>
+                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"  />
+                <input type="hidden" name="profile_avatar_remove" formControlName="pic" />
+              </label>
+              <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
+                <i class="ki ki-bold-close icon-xs text-muted"></i>
+              </span>
+              <span *ngIf="user.pic"
+                class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                (click)="deletePic()"
+                data-action="remove" data-toggle="tooltip" title="" data-original-title="Remove avatar">
+                <i class="ki ki-bold-close icon-xs text-muted"></i>
+              </span>
+            </div>
+            <span class="form-text text-muted">Tipo de archivos permitidos: png, jpg, jpeg.</span>
+          </div>
+        </div> -->
+        <div class="row">
+          <label class="col-xl-3"></label>
+          <div class="col-lg-9 col-xl-6">
+            <h5 class="font-weight-bold mt-10 mb-6">Datos personales</h5>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Tipo de documento</label>
+          <div class="col-lg-9 col-xl-6">
+            <select class="form-control form-control-lg form-control-solid" formControlName="document_type">
+              <option *ngFor="let item of documentTypes" value="{{item.abbreviation}}">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Número de documento</label>
+          <div class="col-lg-9 col-xl-6">
+            <input class="form-control form-control-lg form-control-solid"
+              type="text"
+              formControlName="document_number"
+              [class.is-invalid]="isControlInvalid('document_number')"
+              [class.is-valid]="isControlValid('document_number')"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Nombres</label>
+          <div class="col-lg-9 col-xl-6">
+            <input class="form-control form-control-lg form-control-solid"
+              type="text"
+              formControlName="name"
+              [class.is-invalid]="isControlInvalid('name')"
+              [class.is-valid]="isControlValid('name')"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Apellidos</label>
+          <div class="col-lg-9 col-xl-6">
+            <input class="form-control form-control-lg form-control-solid"
+              type="text"
+              value="Bold"
+              formControlName="lastname"
+              [class.is-invalid]="isControlInvalid('lastname')"
+              [class.is-valid]="isControlValid('lastname')"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Fecha de nacimiento</label>
+          <div class="col-lg-9 col-xl-6">
+            <input class="form-control form-control-lg form-control-solid"
+              type="date"
+              value="Bold"
+              formControlName="birthday"
+              [class.is-invalid]="isControlInvalid('birthday')"
+              [class.is-valid]="isControlValid('birthday')"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Género</label>
+          <div class="col-lg-9 col-xl-6">
+            <select class="form-control form-control-lg form-control-solid" formControlName="gender">
+              <option *ngFor="let item of genders" value="{{item.abbreviation}}">{{item.value}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-xl-3"></label>
+          <div class="col-lg-9 col-xl-6">
+            <h5 class="font-weight-bold mt-10 mb-6">Información de contacto</h5>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Teléfono</label>
+          <div class="col-lg-9 col-xl-6">
+            <div class="input-group input-group-lg input-group-solid">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-phone"></i>
+                </span>
+              </div>
+              <input type="text"
+                class="form-control form-control-lg form-control-solid" 
+                placeholder="Phone"
+                formControlName="phone"
+                [class.is-invalid]="isControlInvalid('phone')"
+                [class.is-valid]="isControlValid('phone')"
+              />
+            </div>
+            <!-- <span class="form-text text-muted">We'll never share your email with anyone else.</span> -->
+          </div>
+        </div>
+        <!-- <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Correo electrónico</label>
+          <div class="col-lg-9 col-xl-6">
+            <div class="input-group input-group-lg input-group-solid">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-at"></i>
+                </span>
+              </div>
+              <input type="email"
+                class="form-control form-control-lg form-control-solid"
+                placeholder="Email"
+                formControlName="email"
+                [class.is-invalid]="isControlInvalid('email')"
+                [class.is-valid]="isControlValid('email')"
+              />
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">Dirección</label>
+          <div class="col-lg-9 col-xl-6">
+            <div class="input-group input-group-lg input-group-solid">
+              <input type="text"
+                class="form-control form-control-lg form-control-solid"
+                placeholder="Dirección"
+                formControlName="address"
+                [class.is-invalid]="isControlInvalid('address')"
+                [class.is-valid]="isControlValid('address')"
+                />
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <!--end::Body-->
+    </div>
+    <!--end::Form-->
+  </div>
+</ng-container>

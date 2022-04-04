@@ -1,0 +1,84 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Lista de tipos de apuestas</h3>
+    </div>
+    <div class="card-toolbar">
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <th>ID</th>
+          <th>NOMBRE</th>
+          <th>DESCRIPCIÓN</th>
+          <th>AGREGADO</th>
+          <th>ÍNDICE</th>
+          <th>OPCIÓN</th>
+          <th>IMPORTANCIA</th>
+          <th>DEPORTE</th>
+          <th>ACCIONES</th>
+        </thead>
+        <thead class="primary">
+          <tr>
+              <th>
+                <i (click)="get(page)" class="fas fa-sync-alt icon-load" [class.fa-spin]="isLoadingGet"></i>
+              </th>
+              <th scope="col">
+                <input type="text" [(ngModel)]="filters.name" class="form-control" id="filter_name" name="filter_name" placeholder="Nombre" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col">
+                <input type="text" [(ngModel)]="filters.description" class="form-control" id="filter_description" name="filter_description" placeholder="Descripción" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col">
+                <input type="text" class="form-control" id="filter_importance" name="filter_importance" placeholder="Importancia" [(ngModel)]="filters.importance" (keydown.enter)="get(1)">
+              </th>
+              <th scope="col">
+                <select class="form-control" [(ngModel)]="filters.category_id" id="filter_category_id" name="filter_category_id" (change)="get(1)">
+                  <option value="">Todos</option>
+                  <option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</option>
+                </select>
+              </th>
+              <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let model of data">
+            <td>{{model.id}}</td>
+
+            <td #name [innerText]="model.name" (blur)="updateValue(model.id, name.innerText, model, 'name', 'nombre ')" contenteditable="true">{{model.name}}</td>
+
+            <td #description [innerText]="model.description" (blur)="updateValue(model.id, description.innerText, model, 'description', 'descripción ')" contenteditable="true">{{model.description}}</td>
+
+            <td #adding [innerText]="model.adding" (blur)="updateValue(model.id, adding.innerText, model, 'adding', 'agregado ')" contenteditable="true">{{model.acro_3}}</td>
+
+            <td #index [innerText]="model.index" (blur)="updateValue(model.id, index.innerText, model, 'index', 'índice ')" contenteditable="true">{{model.index}}</td>
+
+            <td #option [innerText]="model.option" (blur)="updateValue(model.id, option.innerText, model, 'option', 'opción ')" contenteditable="true">{{model.option}}</td>
+
+            <td style="text-align: center;" #importance [innerText]="model.importance" (blur)="updateValue(model.id, importance.innerText, model, 'importance', 'importancia ')" contenteditable="true">{{model.importance}}</td>
+
+            <td>{{model.category?.name}}</td>
+
+            <td>
+              <!-- <span (click)="newEdit(model)" class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px; cursor: pointer;">
+                Editar&nbsp;&nbsp;<i class="fas fa-edit icon-edit"></i>
+             </span> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer py-4">
+      <nav aria-label="...">
+        <ul class="pagination justify-content-end mb-0">
+          <ngb-pagination [collectionSize]="totalPage" [(page)]="page" [maxSize]="12" [rotate]="true" [boundaryLinks]="true" (pageChange)="get(page)"></ngb-pagination>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
