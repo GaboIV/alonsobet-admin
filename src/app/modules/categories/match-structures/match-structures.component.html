@@ -90,7 +90,7 @@
             <td>
               <span class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px;" *ngFor="let betType of model.main_bet_types; let i = index;">
                 <span *ngIf="betType.description && betType.description != ''">{{betType.description}}</span>
-                <span *ngIf="!betType.description && betType.description == ''">{{betType.name}}</span>
+                <span *ngIf="!betType.description || betType.description == ''">{{betType.name}}</span>
                 &nbsp;
                 <i class="fas fa-window-close icon-close" (click)="deleteMainBetType(model, betType)"></i>&nbsp;
                 <i class="fas fa-caret-square-up icon-edit" (click)="moveArrayItemToNewIndex(model.id, model.main_bet_types, i, i - 1)" *ngIf="i > 0"></i>

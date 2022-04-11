@@ -3,7 +3,6 @@ import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { map, catchError, switchMap, finalize } from 'rxjs/operators';
 import { UserModel } from '../_models/user.model';
 import { AuthModel } from '../_models/auth.model';
-import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -20,7 +19,7 @@ export class AuthService implements OnDestroy {
   };
 
   // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 
   // public fields
@@ -58,8 +57,7 @@ export class AuthService implements OnDestroy {
     this.currentUserSubject.next(user);
   }
 
-  constructor(
-    private authHttpService: AuthHTTPService,    
+  constructor(    
     private http: HttpClient,
     private router: Router
   ) {
@@ -77,9 +75,7 @@ export class AuthService implements OnDestroy {
 
     const url = environment.apiUrl + "/auth/login";
 
-    let userLogin = null;
-
-    if ( email !== undefined && password != '' ) {
+    if (email !== undefined && password != '') {
       return this.http.post(url, {
         "email" : email,
         "password" : password
@@ -90,7 +86,9 @@ export class AuthService implements OnDestroy {
           const auth = new AuthModel();
           auth.accessToken = resp.access_token;
 
-          const result = this.setAuthFromLocalStorage(auth);
+          this.setAuthFromLocalStorage(auth);
+
+          console.log(resp.user);
           
           return resp.user;
         }),
@@ -140,29 +138,6 @@ export class AuthService implements OnDestroy {
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );
-  }
-
-   // need create new user then login
-   registration(user: UserModel): Observable<any> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService.createUser(user).pipe(
-      map(() => {
-        this.isLoadingSubject.next(false);
-      }),
-      switchMap(() => this.login(user.email, user.password)),
-      catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
-      }),
-      finalize(() => this.isLoadingSubject.next(false))
-    );
-  }
-
-  forgotPassword(email: string): Observable<boolean> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
   // private methods

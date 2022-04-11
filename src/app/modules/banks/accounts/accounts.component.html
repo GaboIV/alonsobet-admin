@@ -53,7 +53,7 @@
             <td #document [innerText]="model.document" (blur)="updateValue(model.id, document.innerText, model, 'document', 'documento ')" contenteditable="true">{{model.document}}</td>
             <td #email [innerText]="model.email" (blur)="updateValue(model.id, email.innerText, model, 'email', 'correo electrónico ')" contenteditable="true">{{model.email}}</td>
             <th>{{model.type}}</th>
-            <th>{{model.bank_id}}</th>
+            <th>{{model.bank.name}}</th>
             <td>
               <span (click)="newEdit(model)" class="label label-lg label-inline" style="margin-right: 2px; margin-bottom: 2px; cursor: pointer;">
                 Editar&nbsp;&nbsp;<i class="fas fa-edit icon-edit"></i>

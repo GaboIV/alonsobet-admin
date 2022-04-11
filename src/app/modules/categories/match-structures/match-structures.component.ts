@@ -62,7 +62,7 @@ export class MatchStructuresComponent implements OnInit {
   }
 
   get(page: any) {
-    const toast = this.toastService.show('Cargando ' + this.nameSingular.toLowerCase, 'loading');
+    const toast = this.toastService.show('Cargando ' + this.nameSingular.toLowerCase(), 'loading');
     this.isLoadingGet = true;
 
     this._matchStructureService.pagination(page, this.filters)
